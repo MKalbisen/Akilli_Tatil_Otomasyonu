@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SmartTour.DataAccess;
 using SmartTour.Models;
+using SmartTour.BusinessLogic;
 
 namespace SmartTour.Forms
 {
@@ -217,32 +218,36 @@ namespace SmartTour.Forms
             var plan = _planlar.FirstOrDefault(p => p.PlanID == planId);
             if (plan == null) return;
 
+            var servis = new TurPlanlamaServisi();
+            decimal carpan = servis.GetSezonCarpan(plan.Sezon);
+
             string detay = "";
-            detay += $"📋 Plan #{plan.PlanID}\n";
-            detay += $"━━━━━━━━━━━━━━━━━━━━━\n";
-            detay += $"📍 Şehir     : {plan.SehirAdi}\n";
-            detay += $"🚌 Ulaşım   : {plan.UlasimTuru}\n";
-            detay += $"   Fiyat     : {plan.UlasimFiyat:N2} ₺\n";
-            detay += $"🏨 Konaklama : {plan.KonaklamaAdi}\n";
-            detay += $"   Gece      : {plan.GeceSayisi}\n";
-            detay += $"   Fiyat     : {plan.KonaklamaFiyat:N2} ₺\n";
-            detay += $"━━━━━━━━━━━━━━━━━━━━━\n";
+            detay += $"📋 Plan #{plan.PlanID} – {plan.SehirAdi}\n";
+            detay += $"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+            detay += $"🌸 Sezon      : {plan.Sezon}\n";
+            detay += $"🚌 Ana Ulaşım : {plan.UlasimTuru}\n";
+            detay += $"   Fiyat      : {plan.UlasimFiyat * carpan:N2} ₺\n";
+            detay += $"🏨 Konaklama  : {plan.KonaklamaAdi}\n";
+            detay += $"   Kalış      : {plan.GeceSayisi} Gece / {plan.GeceSayisi + 1} Gün\n";
+            detay += $"   Fiyat      : {plan.KonaklamaFiyat * carpan:N2} ₺/gece\n";
+            detay += $"🚗 Şehir İçi  : {plan.SehirIciUlasim}\n";
+            detay += $"   Fiyat      : {plan.SehirIciMaliyet:N2} ₺ (Toplam)\n";
+            detay += $"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
 
             if (plan.SecilenYerler.Count > 0)
             {
-                detay += "📍 Gezilecek Yerler:\n";
-                foreach (var yer in plan.SecilenYerler)
-                {
-                    detay += $"  • {yer.YerAdi}\n";
-                    detay += $"    {yer.ZiyaretUcreti:N2} ₺\n";
-                }
-                detay += $"━━━━━━━━━━━━━━━━━━━━━\n";
+                decimal geziToplam = plan.SecilenYerler.Sum(y => y.ZiyaretUcreti);
+                detay += $"📍 Gezi Toplam: {geziToplam:N2} ₺\n";
+                detay += $"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
             }
 
-            detay += $"💰 Toplam    : {plan.ToplamMaliyet:N2} ₺\n";
+            detay += $"💰 Toplam     : {plan.ToplamMaliyet:N2} ₺\n";
             if (plan.Butce > 0)
-                detay += $"💼 Bütçe     : {plan.Butce:N2} ₺\n";
-            detay += $"📅 Tarih     : {plan.OlusturmaTarihi:dd.MM.yyyy HH:mm}\n";
+                detay += $"💼 Bütçe      : {plan.Butce:N2} ₺\n";
+            detay += $"📅 Tarih      : {plan.OlusturmaTarihi:dd.MM.yyyy HH:mm}\n\n";
+
+            detay += "━━━━━━━━━━ GÜNLÜK AJANDA ━━━━━━━━━━\n\n";
+            detay += TurPlanlamaServisi.GunlukAkisMetniOlustur(plan);
 
             rtbDetay.Text = detay;
         }
@@ -495,8 +500,9 @@ namespace SmartTour.Forms
             _plan.KonaklamaFiyat = konaklama.GeceFiyat;
             _plan.SecilenYerler = secilenYerler;
 
-            decimal geziToplam = secilenYerler.Sum(y => y.ZiyaretUcreti);
-            _plan.ToplamMaliyet = ulasim.Fiyat + (konaklama.GeceFiyat * _plan.GeceSayisi) + geziToplam;
+            var servis = new TurPlanlamaServisi();
+            _plan.ToplamMaliyet = servis.ToplamMaliyetHesapla(
+                ulasim.Fiyat, konaklama.GeceFiyat, _plan.GeceSayisi, secilenYerler, _plan.Sezon, _plan.SehirIciUlasim);
 
             try
             {

@@ -15,6 +15,8 @@ namespace SmartTour.Forms
         private TextBox txtSehirAra;
         private NumericUpDown nudButce;
         private NumericUpDown nudGeceSayisi;
+        private ComboBox cmbSezon; // Yeni Sezon seçimi
+        private Button btnAdmin;    // Yeni Admin paneli butonu
         private Button btnPlanOner;
         private Button btnKayitliPlanlar;
         private Button btnManuelPlanlama;
@@ -74,6 +76,27 @@ namespace SmartTour.Forms
                 TextAlign = ContentAlignment.MiddleCenter
             };
             pnlHeader.Controls.Add(lblAltBaslik);
+
+            btnAdmin = new Button
+            {
+                Text = "🛠️ Yönetici",
+                Location = new Point(formW - 130, 20),
+                Size = new Size(110, 35),
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                BackColor = Color.FromArgb(220, 100, 0),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand
+            };
+            btnAdmin.FlatAppearance.BorderSize = 0;
+            btnAdmin.Click += (s, e) =>
+            {
+                var adminForm = new AdminPanelForm();
+                adminForm.ShowDialog();
+                LoadSehirler(); // Şehirler güncellenmiş olabilir
+            };
+            pnlHeader.Controls.Add(btnAdmin);
+            btnAdmin.BringToFront();
 
             int panelW = formW - 160;
             int panelH = formH - 200;
@@ -146,22 +169,42 @@ namespace SmartTour.Forms
             pnlContent.Controls.Add(nudButce);
             y += 50;
 
+            int halfW = (controlW - 15) / 2;
+
             pnlContent.Controls.Add(new Label
             {
                 Text = "🌙 Gece Sayısı:",
                 Font = new Font("Segoe UI", 12F, FontStyle.Bold),
                 Location = new Point(controlX, y), AutoSize = true
             });
+
+            pnlContent.Controls.Add(new Label
+            {
+                Text = "🌸 Sezon Seçimi:",
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                Location = new Point(controlX + halfW + 15, y), AutoSize = true
+            });
             y += 32;
 
             nudGeceSayisi = new NumericUpDown
             {
                 Location = new Point(controlX, y),
-                Size = new Size(controlW, 34),
+                Size = new Size(halfW, 34),
                 Minimum = 1, Maximum = 30, Value = 3,
                 Font = new Font("Segoe UI", 12F)
             };
             pnlContent.Controls.Add(nudGeceSayisi);
+
+            cmbSezon = new ComboBox
+            {
+                Location = new Point(controlX + halfW + 15, y),
+                Size = new Size(halfW, 34),
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Segoe UI", 12F)
+            };
+            cmbSezon.Items.AddRange(new object[] { "🌸 Bahar Sezonu", "☀️ Yaz Sezonu (+%40)", "❄️ Kış Sezonu (-%20)" });
+            cmbSezon.SelectedIndex = 0;
+            pnlContent.Controls.Add(cmbSezon);
             y += 55;
 
             btnPlanOner = new Button
@@ -190,7 +233,7 @@ namespace SmartTour.Forms
             pnlContent.Controls.Add(btnPlanOner);
             y += 68;
 
-            int halfW = (controlW - 15) / 2;
+            halfW = (controlW - 15) / 2;
 
             btnKayitliPlanlar = new Button
             {
@@ -286,12 +329,16 @@ namespace SmartTour.Forms
             decimal butce = nudButce.Value;
             int geceSayisi = (int)nudGeceSayisi.Value;
 
+            string sezon = "Bahar";
+            if (cmbSezon.SelectedIndex == 1) sezon = "Yaz";
+            else if (cmbSezon.SelectedIndex == 2) sezon = "Kış";
+
             var ulasimlar = new UlasimRepository().GetBySehirId(secilenSehir.SehirID);
             var konaklamalar = new KonaklamaRepository().GetBySehirId(secilenSehir.SehirID);
             var yerler = new GezilecekYerRepository().GetBySehirId(secilenSehir.SehirID);
 
             var servis = new TurPlanlamaServisi();
-            var planlar = servis.CokluPlanOner(secilenSehir, butce, geceSayisi, ulasimlar, konaklamalar, yerler);
+            var planlar = servis.CokluPlanOner(secilenSehir, butce, geceSayisi, ulasimlar, konaklamalar, yerler, sezon);
 
             if (planlar.Count == 0)
             {
@@ -318,7 +365,12 @@ namespace SmartTour.Forms
             }
 
             var secilenSehir = (Sehir)cmbSehir.SelectedItem!;
-            var tercihlerForm = new TercihlerForm(secilenSehir);
+            
+            string sezon = "Bahar";
+            if (cmbSezon.SelectedIndex == 1) sezon = "Yaz";
+            else if (cmbSezon.SelectedIndex == 2) sezon = "Kış";
+
+            var tercihlerForm = new TercihlerForm(secilenSehir, sezon);
             tercihlerForm.Show();
             this.Hide();
             tercihlerForm.FormClosed += (s, args) => this.Show();

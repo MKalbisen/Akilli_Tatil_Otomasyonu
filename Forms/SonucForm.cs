@@ -154,7 +154,9 @@ namespace SmartTour.Forms
                 _plan.UlasimFiyat,
                 _plan.KonaklamaFiyat,
                 _plan.GeceSayisi,
-                _plan.SecilenYerler
+                _plan.SecilenYerler,
+                _plan.Sezon,
+                _plan.SehirIciUlasim
             );
 
             bool uygun = servis.ButceyeUygunMu(dokum.ToplamMaliyet, _plan.Butce);
@@ -164,47 +166,49 @@ namespace SmartTour.Forms
             sonuc += "║           SMARTTOUR - TUR PLAN DETAYI           ║\n";
             sonuc += "╚══════════════════════════════════════════════════╝\n\n";
 
-            sonuc += $"  📍 Şehir           : {_plan.SehirAdi}\n";
-            sonuc += $"  🚌 Ulaşım          : {_plan.UlasimTuru}\n";
+            sonuc += $"  📍 Hedef Şehir     : {_plan.SehirAdi}\n";
+            sonuc += $"  🌸 Sezon           : {_plan.Sezon}\n";
+            sonuc += $"  🚌 Ana Ulaşım      : {_plan.UlasimTuru}\n";
+            sonuc += $"  🚗 Şehir İçi Ulaşım: {_plan.SehirIciUlasim}\n";
             sonuc += $"  🏨 Konaklama       : {_plan.KonaklamaAdi}\n";
-            sonuc += $"  🌙 Gece Sayısı     : {_plan.GeceSayisi}\n\n";
+            sonuc += $"  🌙 Süre            : {_plan.GeceSayisi} Gece / {(_plan.GeceSayisi + 1)} Gün\n\n";
 
             sonuc += "──────────── MALİYET DÖKÜMÜ ────────────\n\n";
-            sonuc += $"  🚌 Ulaşım Maliyeti        : {dokum.UlasimMaliyeti,10:N2} ₺\n";
-            sonuc += $"  🏨 Konaklama ({dokum.GeceSayisi} gece)     : {dokum.KonaklamaToplam,10:N2} ₺\n";
+            sonuc += $"  🚌 Ana Ulaşım Maliyeti    : {dokum.UlasimMaliyeti,10:N2} ₺\n";
+            sonuc += $"  🏨 Konaklama Toplam       : {dokum.KonaklamaToplam,10:N2} ₺\n";
             sonuc += $"     ({dokum.KonaklamaGeceFiyat:N2} ₺ × {dokum.GeceSayisi} gece)\n";
+            sonuc += $"  🚗 Şehir İçi Ulaşım       : {dokum.SehirIciToplam,10:N2} ₺\n";
+            sonuc += $"     ({servis.GetSehirIciGunlukMaliyet(_plan.SehirIciUlasim):N2} ₺ × {_plan.GeceSayisi} gün)\n";
 
             if (_plan.SecilenYerler.Count > 0)
             {
-                sonuc += "\n  📍 Gezilecek Yerler:\n";
-                foreach (var yer in _plan.SecilenYerler)
-                {
-                    sonuc += $"     • {yer.YerAdi,-25} {yer.ZiyaretUcreti,8:N2} ₺\n";
-                }
-                sonuc += $"  📍 Gezi Toplam            : {dokum.GeziMaliyeti,10:N2} ₺\n";
+                sonuc += $"  📍 Gezi Giriş Ücretleri   : {dokum.GeziMaliyeti,10:N2} ₺\n";
             }
 
             sonuc += "\n══════════════════════════════════════════\n";
             sonuc += $"  💰 TOPLAM MALİYET         : {dokum.ToplamMaliyet,10:N2} ₺\n";
-            sonuc += $"  💼 BÜTÇE                  : {_plan.Butce,10:N2} ₺\n";
-            sonuc += "══════════════════════════════════════════\n";
+            sonuc += $"  💼 BELİRLENEN BÜTÇE       : {_plan.Butce,10:N2} ₺\n";
+            sonuc += "══════════════════════════════════════════\n\n";
 
             if (uygun)
             {
-                sonuc += "\n  ✅ Bütçenize uygun bir plan oluşturuldu!\n";
+                sonuc += "  ✅ Bütçenize uygun bir plan oluşturuldu!\n";
                 decimal kalan = _plan.Butce - dokum.ToplamMaliyet;
-                sonuc += $"  💵 Kalan Bütçe: {kalan:N2} ₺\n";
+                sonuc += $"  💵 Kalan Bütçeniz: {kalan:N2} ₺\n\n";
                 lblDurum.Text = "✅ Bütçeye Uygun";
                 lblDurum.ForeColor = Color.FromArgb(40, 167, 69);
             }
             else
             {
                 decimal fark = dokum.ToplamMaliyet - _plan.Butce;
-                sonuc += $"\n  ⚠️ Bütçe {fark:N2} ₺ aşıldı!\n";
-                sonuc += "  Daha uygun seçenekler için planı düzenleyin.\n";
+                sonuc += $"  ⚠️ Bütçe {fark:N2} ₺ aşıldı!\n";
+                sonuc += "  Daha uygun seçenekler için bütçenizi düzenleyin.\n\n";
                 lblDurum.Text = "⚠️ Bütçe Aşıldı";
                 lblDurum.ForeColor = Color.FromArgb(220, 53, 69);
             }
+
+            sonuc += "━━━━━━━━━━ GÜNLÜK SEYAHAT AJANDASI ━━━━━━━━━━\n\n";
+            sonuc += TurPlanlamaServisi.GunlukAkisMetniOlustur(_plan);
 
             rtbSonuc.Text = sonuc;
         }
@@ -242,15 +246,18 @@ namespace SmartTour.Forms
             sb.AppendLine();
             sb.AppendLine("───────────── GENEL BİLGİLER ─────────────");
             sb.AppendLine($"  Şehir             : {_plan.SehirAdi}");
+            sb.AppendLine($"  Sezon             : {_plan.Sezon}");
             sb.AppendLine($"  Ulaşım Türü       : {_plan.UlasimTuru}");
+            sb.AppendLine($"  Şehir İçi Ulaşım  : {_plan.SehirIciUlasim}");
             sb.AppendLine($"  Konaklama         : {_plan.KonaklamaAdi}");
             sb.AppendLine($"  Gece Sayısı       : {_plan.GeceSayisi}");
             sb.AppendLine($"  Bütçe             : {_plan.Butce:N2} ₺");
             sb.AppendLine();
             sb.AppendLine("───────────── MALİYET DÖKÜMÜ ─────────────");
             sb.AppendLine($"  Ulaşım Maliyeti   : {_plan.UlasimFiyat:N2} ₺");
-            sb.AppendLine($"  Konaklama Toplam   : {_plan.KonaklamaFiyat * _plan.GeceSayisi:N2} ₺");
+            sb.AppendLine($"  Konaklama Toplam  : {_plan.KonaklamaFiyat * _plan.GeceSayisi:N2} ₺");
             sb.AppendLine($"    ({_plan.KonaklamaFiyat:N2} ₺ x {_plan.GeceSayisi} gece)");
+            sb.AppendLine($"  Şehir İçi Ulaşım  : {_plan.SehirIciMaliyet:N2} ₺");
 
             if (_plan.SecilenYerler.Count > 0)
             {
@@ -265,6 +272,10 @@ namespace SmartTour.Forms
                 }
                 sb.AppendLine($"  Gezi Toplam       : {geziToplam:N2} ₺");
             }
+
+            sb.AppendLine();
+            sb.AppendLine("───────────── GÜNLÜK SEYAHAT SEYRİ ─────────────");
+            sb.AppendLine(TurPlanlamaServisi.GunlukAkisMetniOlustur(_plan));
 
             sb.AppendLine();
             sb.AppendLine("═══════════════════════════════════════════════════════");

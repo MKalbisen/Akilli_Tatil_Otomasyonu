@@ -60,3 +60,23 @@ D:\Antigravity\Tatil Otomasyonu Anti\obj\Debug\net8.0-windows\ref\SmartTour.dll
 D:\Antigravity\Tatil Otomasyonu Anti\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\Antigravity\Tatil Otomasyonu Anti\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Antigravity\Tatil Otomasyonu Anti\bin\Debug\net8.0-windows\Npgsql.dll
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.exe
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.deps.json
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.runtimeconfig.json
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.dll
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.pdb
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\Npgsql.dll
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.csproj.AssemblyReference.cache
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.AssemblyInfoInputs.cache
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.AssemblyInfo.cs
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.csproj.CoreCompileInputs.cache
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.sourcelink.json
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.csproj.Up2Date
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.dll
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\refint\SmartTour.dll
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.pdb
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.genruntimeconfig.cache
+C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\ref\SmartTour.dll

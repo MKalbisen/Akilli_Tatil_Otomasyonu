@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "MrYq8dHIOrA=",
+  "dgSpecHash": "9AG+Qe8dG5M=",
   "success": true,
-  "projectFilePath": "D:\\Antigravity\\Tatil Otomasyonu Anti\\SmartTour.csproj",
+  "projectFilePath": "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\mkalb\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\mkalb\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\mkalb\\.nuget\\packages\\npgsql\\8.0.6\\npgsql.8.0.6.nupkg.sha512"
+    "C:\\Users\\sabod\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\sabod\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\sabod\\.nuget\\packages\\npgsql\\8.0.6\\npgsql.8.0.6.nupkg.sha512"
   ],
   "logs": []
 }

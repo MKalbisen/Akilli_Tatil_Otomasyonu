@@ -191,24 +191,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mkalb\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\sabod\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Antigravity\\Tatil Otomasyonu Anti\\SmartTour.csproj",
+      "projectUniqueName": "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj",
       "projectName": "SmartTour",
-      "projectPath": "D:\\Antigravity\\Tatil Otomasyonu Anti\\SmartTour.csproj",
-      "packagesPath": "C:\\Users\\mkalb\\.nuget\\packages\\",
-      "outputPath": "D:\\Antigravity\\Tatil Otomasyonu Anti\\obj\\",
+      "projectPath": "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj",
+      "packagesPath": "C:\\Users\\sabod\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\mkalb\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\sabod\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -234,7 +229,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -264,7 +259,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

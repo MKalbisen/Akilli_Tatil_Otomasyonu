@@ -12,6 +12,7 @@ namespace SmartTour.Forms
     public class TercihlerForm : Form
     {
         private Sehir _secilenSehir;
+        private string _varsayilanSezon; // Yeni: Ana sayfadan gelen sezon
         private Label lblBaslik;
         private Label lblBudget;
         private NumericUpDown nudButce;
@@ -31,6 +32,12 @@ namespace SmartTour.Forms
         private Label lblGeceSayisi;
         private NumericUpDown nudGeceSayisi;
 
+        private Label lblSezon;          // Yeni: Sezon etiketi
+        private ComboBox cmbSezon;      // Yeni: Sezon seçim kutusu
+
+        private Label lblSehirIci;       // Yeni: Şehir içi ulaşım etiketi
+        private ComboBox cmbSehirIci;   // Yeni: Şehir içi ulaşım seçim kutusu
+
         private Label lblGezilecek;
         private TextBox txtGezilecekAra;
         private NumericUpDown nudGezilecekMinFiyat;
@@ -49,9 +56,10 @@ namespace SmartTour.Forms
         private List<Konaklama> _tumKonaklamalar = new List<Konaklama>();
         private List<GezilecekYer> _tumYerler = new List<GezilecekYer>();
 
-        public TercihlerForm(Sehir sehir)
+        public TercihlerForm(Sehir sehir, string varsayilanSezon = "Bahar")
         {
             _secilenSehir = sehir;
+            _varsayilanSezon = varsayilanSezon;
             InitializeComponent();
             LoadData();
         }
@@ -203,6 +211,52 @@ namespace SmartTour.Forms
                 Font = new Font("Segoe UI", 10F)
             };
             this.Controls.Add(nudGeceSayisi);
+            y += 38;
+
+            int halfInputW = (controlWidth - 20) / 2;
+
+            lblSezon = new Label
+            {
+                Text = "🌸 Seyahat Sezonu:",
+                Location = new Point(labelX, y),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold)
+            };
+            this.Controls.Add(lblSezon);
+
+            lblSehirIci = new Label
+            {
+                Text = "🚗 Şehir İçi Ulaşım:",
+                Location = new Point(labelX + halfInputW + 20, y),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold)
+            };
+            this.Controls.Add(lblSehirIci);
+            y += 24;
+
+            cmbSezon = new ComboBox
+            {
+                Location = new Point(controlX, y),
+                Size = new Size(halfInputW, 28),
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Segoe UI", 10F)
+            };
+            cmbSezon.Items.AddRange(new object[] { "🌸 Bahar Sezonu", "☀️ Yaz Sezonu (+%40)", "❄️ Kış Sezonu (-%20)" });
+            if (_varsayilanSezon == "Yaz") cmbSezon.SelectedIndex = 1;
+            else if (_varsayilanSezon == "Kış") cmbSezon.SelectedIndex = 2;
+            else cmbSezon.SelectedIndex = 0;
+            this.Controls.Add(cmbSezon);
+
+            cmbSehirIci = new ComboBox
+            {
+                Location = new Point(controlX + halfInputW + 20, y),
+                Size = new Size(halfInputW, 28),
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Segoe UI", 10F)
+            };
+            cmbSehirIci.Items.AddRange(new object[] { "🚶 Yürüyüş & Toplu Taşıma (50 ₺/gün)", "🚕 Taksi (300 ₺/gün)", "🚗 Araç Kiralama (900 ₺/gün)" });
+            cmbSehirIci.SelectedIndex = 0;
+            this.Controls.Add(cmbSehirIci);
             y += 38;
 
             lblGezilecek = new Label
@@ -445,13 +499,23 @@ namespace SmartTour.Forms
             int geceSayisi = (int)nudGeceSayisi.Value;
             decimal butce = nudButce.Value;
 
+            string sezon = "Bahar";
+            if (cmbSezon.SelectedIndex == 1) sezon = "Yaz";
+            else if (cmbSezon.SelectedIndex == 2) sezon = "Kış";
+
+            string sehirIciUlasim = "Toplu Tasima";
+            if (cmbSehirIci.SelectedIndex == 1) sehirIciUlasim = "Taksi";
+            else if (cmbSehirIci.SelectedIndex == 2) sehirIciUlasim = "Araç Kiralama";
+
             var secilenYerler = new List<GezilecekYer>();
             foreach (var item in clbGezilecek.CheckedItems)
                 secilenYerler.Add((GezilecekYer)item);
 
             var servis = new TurPlanlamaServisi();
             var toplamMaliyet = servis.ToplamMaliyetHesapla(
-                secilenUlasim.Fiyat, secilenKonaklama.GeceFiyat, geceSayisi, secilenYerler);
+                secilenUlasim.Fiyat, secilenKonaklama.GeceFiyat, geceSayisi, secilenYerler, sezon, sehirIciUlasim);
+
+            decimal sehirIciMaliyet = servis.GetSehirIciGunlukMaliyet(sehirIciUlasim) * geceSayisi;
 
             var plan = new TurPlani
             {
@@ -465,6 +529,9 @@ namespace SmartTour.Forms
                 KonaklamaFiyat = secilenKonaklama.GeceFiyat,
                 GeceSayisi = geceSayisi,
                 SecilenYerler = secilenYerler,
+                Sezon = sezon,
+                SehirIciUlasim = sehirIciUlasim,
+                SehirIciMaliyet = sehirIciMaliyet,
                 ToplamMaliyet = toplamMaliyet,
                 Butce = butce,
                 OlusturmaTarihi = DateTime.Now

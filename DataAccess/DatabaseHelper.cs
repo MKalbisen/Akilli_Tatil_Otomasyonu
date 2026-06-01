@@ -1,26 +1,91 @@
 using Npgsql;
 using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace SmartTour.DataAccess
 {
     public static class DatabaseHelper
     {
-        private static readonly string _connectionString =
-            "Host=localhost;Port=5432;Database=SmartTourDB;Username=postgres;Password=Mkalbisen234-";
+        private static string _connectionString = "";
+
+        public static string GetConnectionString()
+        {
+            if (!string.IsNullOrEmpty(_connectionString))
+                return _connectionString;
+
+            string dosyaYolu = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db_config.txt");
+            if (File.Exists(dosyaYolu))
+            {
+                try
+                {
+                    string okunan = File.ReadAllText(dosyaYolu).Trim();
+                    if (!string.IsNullOrEmpty(okunan))
+                    {
+                        _connectionString = okunan;
+                        return _connectionString;
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            _connectionString = "Host=aws-1-eu-central-1.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.oexvtvmrtudiupnrsuky;Password=gorselprojesifre;";
+            return _connectionString;
+        }
 
         public static NpgsqlConnection GetConnection()
         {
-            return new NpgsqlConnection(_connectionString);
+            return new NpgsqlConnection(GetConnectionString());
         }
 
         public static void InitializeDatabase()
         {
-            EnsureDatabaseExists();
+            bool basarili = false;
+            int denemeSayisi = 0;
 
-            using var conn = GetConnection();
-            conn.Open();
+            while (!basarili && denemeSayisi < 3)
+            {
+                try
+                {
+                    using (var conn = GetConnection())
+                    {
+                        conn.Open();
+                    }
+                    basarili = true;
+                }
+                catch (Exception ex)
+                {
+                    denemeSayisi++;
+                    MessageBox.Show(
+                        $"Veritabanına bağlanılamadı. Lütfen bağlantı ayarlarını kontrol edin.\nHata: {ex.Message}",
+                        "Bağlantı Hatası",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
 
-            using var cmd = conn.CreateCommand();
+                    using (var ayarForm = new Forms.BaglantiAyarlariForm())
+                    {
+                        var result = ayarForm.ShowDialog();
+                        if (result != DialogResult.OK)
+                        {
+                            throw new Exception("Kullanıcı veritabanı ayarlarını yapılandırmayı iptal etti.");
+                        }
+                    }
+                    _connectionString = "";
+                }
+            }
+
+            string aktifBaglanti = GetConnectionString();
+            if (aktifBaglanti.Contains("localhost") || aktifBaglanti.Contains("127.0.0.1"))
+            {
+                EnsureDatabaseExists();
+            }
+
+            using var activeConn = GetConnection();
+            activeConn.Open();
+
+            using var cmd = activeConn.CreateCommand();
             cmd.CommandText = @"
                 CREATE TABLE IF NOT EXISTS Sehirler (
                     SehirID SERIAL PRIMARY KEY,
@@ -69,11 +134,11 @@ namespace SmartTour.DataAccess
             ";
             cmd.ExecuteNonQuery();
 
-            SeedData(conn);
+            SeedData(activeConn);
 
-            SeedExtraData(conn);
+            SeedExtraData(activeConn);
 
-            RunMigrations(conn);
+            RunMigrations(activeConn);
         }
 
         private static void RunMigrations(NpgsqlConnection conn)
@@ -93,6 +158,30 @@ namespace SmartTour.DataAccess
                     IF NOT EXISTS (SELECT 1 FROM information_schema.columns
                                    WHERE table_name='turplanlari' AND column_name='butce') THEN
                         ALTER TABLE TurPlanlari ADD COLUMN Butce NUMERIC(10,2) NOT NULL DEFAULT 0;
+                    END IF;
+                END $$;
+
+                -- Sezon sütunu yoksa ekle
+                DO $$ BEGIN
+                    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                                   WHERE table_name='turplanlari' AND column_name='sezon') THEN
+                        ALTER TABLE TurPlanlari ADD COLUMN Sezon VARCHAR(50) NOT NULL DEFAULT 'Bahar';
+                    END IF;
+                END $$;
+
+                -- SehirIciUlasim sütunu yoksa ekle
+                DO $$ BEGIN
+                    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                                   WHERE table_name='turplanlari' AND column_name='sehiriciulasim') THEN
+                        ALTER TABLE TurPlanlari ADD COLUMN SehirIciUlasim VARCHAR(50) NOT NULL DEFAULT 'Toplu Tasima';
+                    END IF;
+                END $$;
+
+                -- SehirIciMaliyet sütunu yoksa ekle
+                DO $$ BEGIN
+                    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                                   WHERE table_name='turplanlari' AND column_name='sehiricimaliyet') THEN
+                        ALTER TABLE TurPlanlari ADD COLUMN SehirIciMaliyet NUMERIC(10,2) NOT NULL DEFAULT 0;
                     END IF;
                 END $$;
 

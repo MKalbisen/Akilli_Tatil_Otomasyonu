@@ -245,27 +245,33 @@ namespace SmartTour.Forms
 
         private void ShowPlanDetail(TurPlani plan)
         {
+            var servis = new TurPlanlamaServisi();
+            decimal carpan = servis.GetSezonCarpan(plan.Sezon);
+            decimal sehirIciToplam = servis.GetSehirIciGunlukMaliyet(plan.SehirIciUlasim) * plan.GeceSayisi;
+
             string d = "";
             d += $"📋 Plan Detayı – {plan.SehirAdi}\n";
             d += $"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
-            d += $"🚌 Ulaşım     : {plan.UlasimTuru,-20} {plan.UlasimFiyat,10:N2} ₺\n";
-            d += $"🏨 Konaklama  : {plan.KonaklamaAdi,-20} {plan.KonaklamaFiyat,10:N2} ₺/gece\n";
-            d += $"🌙 Gece       : {plan.GeceSayisi} gece = {plan.KonaklamaFiyat * plan.GeceSayisi,10:N2} ₺\n";
+            d += $"🌸 Sezon      : {plan.Sezon}\n";
+            d += $"🚌 Ana Ulaşım : {plan.UlasimTuru,-20} {plan.UlasimFiyat * carpan,10:N2} ₺\n";
+            d += $"🏨 Konaklama  : {plan.KonaklamaAdi,-20} {plan.KonaklamaFiyat * carpan,10:N2} ₺/gece\n";
+            d += $"🌙 Kalış      : {plan.GeceSayisi} gece = {(plan.KonaklamaFiyat * carpan) * plan.GeceSayisi,10:N2} ₺\n";
+            d += $"🚗 Şehir İçi  : {plan.SehirIciUlasim,-20} {sehirIciToplam,10:N2} ₺\n";
             d += $"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
 
             if (plan.SecilenYerler.Count > 0)
             {
-                d += "📍 Gezilecek Yerler:\n";
-                foreach (var yer in plan.SecilenYerler)
-                    d += $"   • {yer.YerAdi,-28} {yer.ZiyaretUcreti,8:N2} ₺\n";
-                d += $"   Gezi Toplam: {plan.SecilenYerler.Sum(y => y.ZiyaretUcreti),18:N2} ₺\n";
+                d += $"📍 Gezi Toplam: {plan.SecilenYerler.Sum(y => y.ZiyaretUcreti),22:N2} ₺\n";
             }
 
             d += $"━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
             d += $"💰 TOPLAM     : {plan.ToplamMaliyet,22:N2} ₺\n";
             d += $"💼 BÜTÇE      : {plan.Butce,22:N2} ₺\n";
             decimal kalan = plan.Butce - plan.ToplamMaliyet;
-            d += $"📊 KALAN      : {kalan,22:N2} ₺\n";
+            d += $"📊 KALAN      : {kalan,22:N2} ₺\n\n";
+
+            d += "━━━━━━━━━━ GÜNLÜK AJANDA ━━━━━━━━━━\n\n";
+            d += TurPlanlamaServisi.GunlukAkisMetniOlustur(plan);
 
             rtbDetay.Text = d;
         }
@@ -309,7 +315,7 @@ namespace SmartTour.Forms
 
             var servis = new TurPlanlamaServisi();
             _secilenPlan.ToplamMaliyet = servis.ToplamMaliyetHesapla(
-                ulasim.Fiyat, konaklama.GeceFiyat, _secilenPlan.GeceSayisi, secilenYerler);
+                ulasim.Fiyat, konaklama.GeceFiyat, _secilenPlan.GeceSayisi, secilenYerler, _secilenPlan.Sezon, _secilenPlan.SehirIciUlasim);
 
             int idx = lstPlanlar.SelectedIndex;
             lstPlanlar.Items[idx] = $"Plan {idx + 1}: {_secilenPlan.UlasimTuru} + {_secilenPlan.KonaklamaAdi} = {_secilenPlan.ToplamMaliyet:N0}₺ ({_secilenPlan.SecilenYerler.Count} yer) ✏️";

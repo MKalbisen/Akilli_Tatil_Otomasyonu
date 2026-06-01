@@ -19,6 +19,9 @@ namespace SmartTour.Models
         public decimal KonaklamaFiyat { get; set; }
         public int GeceSayisi { get; set; }
         public List<GezilecekYer> SecilenYerler { get; set; } = new List<GezilecekYer>();
+        public string Sezon { get; set; } = "Bahar";
+        public string SehirIciUlasim { get; set; } = "Toplu Tasima";
+        public decimal SehirIciMaliyet { get; set; }
         public decimal Butce { get; set; }
     }
 }

@@ -112,8 +112,8 @@ namespace SmartTour.DataAccess
             conn.Open();
 
             using var cmd = conn.CreateCommand();
-            cmd.CommandText = @"INSERT INTO TurPlanlari (SehirID, UlasimID, KonaklamaID, GeceSayisi, Butce, ToplamMaliyet, OlusturmaTarihi)
-                                VALUES (@SehirID, @UlasimID, @KonaklamaID, @GeceSayisi, @Butce, @ToplamMaliyet, @OlusturmaTarihi)
+            cmd.CommandText = @"INSERT INTO TurPlanlari (SehirID, UlasimID, KonaklamaID, GeceSayisi, Butce, ToplamMaliyet, OlusturmaTarihi, Sezon, SehirIciUlasim, SehirIciMaliyet)
+                                VALUES (@SehirID, @UlasimID, @KonaklamaID, @GeceSayisi, @Butce, @ToplamMaliyet, @OlusturmaTarihi, @Sezon, @SehirIciUlasim, @SehirIciMaliyet)
                                 RETURNING PlanID";
             cmd.Parameters.AddWithValue("@SehirID", plan.SehirID);
             cmd.Parameters.AddWithValue("@UlasimID", plan.UlasimID);
@@ -122,6 +122,9 @@ namespace SmartTour.DataAccess
             cmd.Parameters.AddWithValue("@Butce", plan.Butce);
             cmd.Parameters.AddWithValue("@ToplamMaliyet", plan.ToplamMaliyet);
             cmd.Parameters.AddWithValue("@OlusturmaTarihi", plan.OlusturmaTarihi);
+            cmd.Parameters.AddWithValue("@Sezon", plan.Sezon);
+            cmd.Parameters.AddWithValue("@SehirIciUlasim", plan.SehirIciUlasim);
+            cmd.Parameters.AddWithValue("@SehirIciMaliyet", plan.SehirIciMaliyet);
             int planId = (int)cmd.ExecuteScalar()!;
 
             foreach (var yer in plan.SecilenYerler)
@@ -146,7 +149,8 @@ namespace SmartTour.DataAccess
                        tp.ToplamMaliyet, tp.OlusturmaTarihi,
                        s.SehirAdi, u.UlasimTuru, u.Fiyat,
                        k.KonaklamaAdi, k.GeceFiyat,
-                       tp.GeceSayisi, tp.Butce
+                       tp.GeceSayisi, tp.Butce,
+                       tp.Sezon, tp.SehirIciUlasim, tp.SehirIciMaliyet
                 FROM TurPlanlari tp
                 JOIN Sehirler s ON tp.SehirID = s.SehirID
                 JOIN Ulasim u ON tp.UlasimID = u.UlasimID
@@ -169,7 +173,10 @@ namespace SmartTour.DataAccess
                     KonaklamaAdi = reader.GetString(9),
                     KonaklamaFiyat = reader.GetDecimal(10),
                     GeceSayisi = reader.GetInt32(11),
-                    Butce = reader.GetDecimal(12)
+                    Butce = reader.GetDecimal(12),
+                    Sezon = reader.IsDBNull(13) ? "Bahar" : reader.GetString(13),
+                    SehirIciUlasim = reader.IsDBNull(14) ? "Toplu Tasima" : reader.GetString(14),
+                    SehirIciMaliyet = reader.IsDBNull(15) ? 0 : reader.GetDecimal(15)
                 });
             }
             reader.Close();
@@ -219,7 +226,9 @@ namespace SmartTour.DataAccess
             cmd.CommandText = @"UPDATE TurPlanlari
                                 SET SehirID = @SehirID, UlasimID = @UlasimID,
                                     KonaklamaID = @KonaklamaID, GeceSayisi = @GeceSayisi,
-                                    Butce = @Butce, ToplamMaliyet = @ToplamMaliyet
+                                    Butce = @Butce, ToplamMaliyet = @ToplamMaliyet,
+                                    Sezon = @Sezon, SehirIciUlasim = @SehirIciUlasim,
+                                    SehirIciMaliyet = @SehirIciMaliyet
                                 WHERE PlanID = @PlanID";
             cmd.Parameters.AddWithValue("@PlanID", plan.PlanID);
             cmd.Parameters.AddWithValue("@SehirID", plan.SehirID);
@@ -228,6 +237,9 @@ namespace SmartTour.DataAccess
             cmd.Parameters.AddWithValue("@GeceSayisi", plan.GeceSayisi);
             cmd.Parameters.AddWithValue("@Butce", plan.Butce);
             cmd.Parameters.AddWithValue("@ToplamMaliyet", plan.ToplamMaliyet);
+            cmd.Parameters.AddWithValue("@Sezon", plan.Sezon);
+            cmd.Parameters.AddWithValue("@SehirIciUlasim", plan.SehirIciUlasim);
+            cmd.Parameters.AddWithValue("@SehirIciMaliyet", plan.SehirIciMaliyet);
             cmd.ExecuteNonQuery();
 
             using var delCmd = conn.CreateCommand();
