@@ -15,7 +15,6 @@
 | 2 | Mehmet Kalbişen | Form Tasarımları & UI | 032390011 |
 | 3 | Efe Tutucu | İş Mantığı & Algoritmalar | 032390034 |
 
-> Her kişinin fotoğraflı CV'si raporun sonunda (Bölüm 7) yer almaktadır.
 
 ---
 
