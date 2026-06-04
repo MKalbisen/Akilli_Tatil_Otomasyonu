@@ -389,10 +389,7 @@ classDiagram
     AnaSayfaForm ..> TurPlanlamaServisi : kullanır
     PlanSecimForm ..> TurPlaniRepository : kaydeder
 ```
-
 ---
-
-# 7. CV
 
 
 
