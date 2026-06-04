@@ -80,3 +80,23 @@ C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows
 C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.pdb
 C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.genruntimeconfig.cache
 C:\Users\sabod\OneDrive\Desktop\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\ref\SmartTour.dll
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.exe
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.deps.json
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.runtimeconfig.json
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.dll
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\SmartTour.pdb
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\bin\Debug\net8.0-windows\Npgsql.dll
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.csproj.AssemblyReference.cache
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.GeneratedMSBuildEditorConfig.editorconfig
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.AssemblyInfoInputs.cache
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.AssemblyInfo.cs
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.csproj.CoreCompileInputs.cache
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.sourcelink.json
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.csproj.Up2Date
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.dll
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\refint\SmartTour.dll
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.pdb
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\SmartTour.genruntimeconfig.cache
+D:\Tatil Otomasyonu Anti\Akilli_Tatil_Otomasyonu\obj\Debug\net8.0-windows\ref\SmartTour.dll

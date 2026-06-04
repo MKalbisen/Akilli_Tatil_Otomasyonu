@@ -15,8 +15,8 @@ namespace SmartTour.Forms
         private TextBox txtSehirAra;
         private NumericUpDown nudButce;
         private NumericUpDown nudGeceSayisi;
-        private ComboBox cmbSezon; // Yeni Sezon seçimi
-        private Button btnAdmin;    // Yeni Admin paneli butonu
+        private ComboBox cmbSezon; 
+        private Button btnAdmin;    
         private Button btnPlanOner;
         private Button btnKayitliPlanlar;
         private Button btnManuelPlanlama;

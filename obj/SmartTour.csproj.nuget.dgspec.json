@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj": {}
+    "D:\\Tatil Otomasyonu Anti\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj": {
+    "D:\\Tatil Otomasyonu Anti\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj",
+        "projectUniqueName": "D:\\Tatil Otomasyonu Anti\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj",
         "projectName": "SmartTour",
-        "projectPath": "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj",
-        "packagesPath": "C:\\Users\\sabod\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sabod\\OneDrive\\Desktop\\Akilli_Tatil_Otomasyonu\\obj\\",
+        "projectPath": "D:\\Tatil Otomasyonu Anti\\Akilli_Tatil_Otomasyonu\\SmartTour.csproj",
+        "packagesPath": "C:\\Users\\mkalb\\.nuget\\packages\\",
+        "outputPath": "D:\\Tatil Otomasyonu Anti\\Akilli_Tatil_Otomasyonu\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\sabod\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mkalb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -70,7 +74,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
